@@ -20,27 +20,29 @@ public class HotelManagementRepository {
     private int maxFacilitiesCount = 0;
     public String addHotel(Hotel hotel) {
 
-
         if(hotel==null) return "FAILURE";
-        if(hotel.getHotelName().isEmpty()) return "FAILURE";
-        if(hotel_db.containsKey(hotel.getHotelName())) return "FAILURE";
+        String key = hotel.getHotelName();
+        if(key == null){
+            return "FAILURE";
+        }
+        if(hotel_db.containsKey(key)){
+            return "FAILURE";
+        }
 
+        hotel_db.put(key, hotel);
 
-        hotel_db.put(hotel.getHotelName(), hotel);
+        int countOfFacilitiesInHotel = hotel.getFacilities().size();
 
-//        int countOfFacilitiesInHotel = hotel.getFacilities().size();
-
-//        if(countOfFacilitiesInHotel>=maxFacilitiesCount){
-//            if(countOfFacilitiesInHotel==maxFacilitiesCount){
-//                if(hotel.getHotelName().compareTo(hotelWithMaxFacility)<0){
-//                    hotelWithMaxFacility = hotel.getHotelName();
-//                }
-//            }else{
-//                maxFacilitiesCount = countOfFacilitiesInHotel;
-//                hotelWithMaxFacility = hotel.getHotelName();
-//            }
-//        }
-
+        if(countOfFacilitiesInHotel>=maxFacilitiesCount){
+            if(countOfFacilitiesInHotel==maxFacilitiesCount){
+                if(hotel.getHotelName().compareTo(hotelWithMaxFacility)<0){
+                    hotelWithMaxFacility = hotel.getHotelName();
+                }
+            }else{
+                maxFacilitiesCount = countOfFacilitiesInHotel;
+                hotelWithMaxFacility = hotel.getHotelName();
+            }
+        }
         return "SUCCESS";
     }
 
@@ -88,18 +90,18 @@ public class HotelManagementRepository {
         }
 
 
-//        int countOfFacilitiesInHotel = currHotel.getFacilities().size();
-//
-//        if(countOfFacilitiesInHotel>=maxFacilitiesCount){
-//            if(countOfFacilitiesInHotel==maxFacilitiesCount){
-//                if(currHotel.getHotelName().compareTo(hotelWithMaxFacility)<0){
-//                    hotelWithMaxFacility = currHotel.getHotelName();
-//                }
-//            }else{
-//                maxFacilitiesCount = countOfFacilitiesInHotel;
-//                hotelWithMaxFacility = currHotel.getHotelName();
-//            }
-//        }
+        int countOfFacilitiesInHotel = currHotel.getFacilities().size();
+
+        if(countOfFacilitiesInHotel>=maxFacilitiesCount){
+            if(countOfFacilitiesInHotel==maxFacilitiesCount){
+                if(currHotel.getHotelName().compareTo(hotelWithMaxFacility)<0){
+                    hotelWithMaxFacility = currHotel.getHotelName();
+                }
+            }else{
+                maxFacilitiesCount = countOfFacilitiesInHotel;
+                hotelWithMaxFacility = currHotel.getHotelName();
+            }
+        }
         return currHotel;
     }
 }
