@@ -48,7 +48,6 @@ public class HotelManagementRepository {
 
     public Integer addUser(User user) {
         user_db.put(user.getaadharCardNo(), user);
-        user_booking_db.put(user.getaadharCardNo(), new ArrayList<>());
         return user.getaadharCardNo();
     }
 
@@ -58,39 +57,20 @@ public class HotelManagementRepository {
 
     public int bookARoom(Booking booking) {
 
-        UUID uuid = UUID.randomUUID();
-        String bookingId = uuid.toString();
-        booking.setBookingId(bookingId);
-
-        String hotelName = booking.getHotelName();
-        Hotel hotel = hotel_db.get(hotelName);
-        int pricePerNight = hotel.getPricePerNight();
-        int noOfRooms = booking.getNoOfRooms();
-        int availableRooms = hotel.getAvailableRooms();
-
-        if(noOfRooms > availableRooms){
+        Hotel hotelToBeBooked = hotel_db.get(booking.getHotelName());
+        if(booking.getNoOfRooms()>hotelToBeBooked.getAvailableRooms()){
             return -1;
+        }else{
+            hotelToBeBooked.setAvailableRooms(hotelToBeBooked.getAvailableRooms()-booking.getNoOfRooms());
+            booking.setBookingId(String.valueOf(UUID.randomUUID()));
+            booking.setAmountToBePaid(booking.getNoOfRooms()*hotelToBeBooked.getPricePerNight());
+            booking_db.put(booking.getBookingId(), booking);
+            if(!user_booking_db.containsKey(booking.getBookingAadharCard())){
+                user_booking_db.put(booking.getBookingAadharCard(), new ArrayList<>());
+            }
+            user_booking_db.get(booking.getBookingAadharCard()).add(booking);
+            return booking.getAmountToBePaid();
         }
-        int amountPaid = noOfRooms * pricePerNight;
-        booking.setAmountToBePaid(amountPaid);
-
-        hotel.setAvailableRooms(availableRooms - noOfRooms);
-        booking_db.put(bookingId, booking);
-        hotel_db.put(hotelName, hotel);
-
-        return amountPaid;
-
-//        Hotel hotelToBeBooked = hotel_db.get(booking.getHotelName());
-//        if(booking.getNoOfRooms()>hotelToBeBooked.getAvailableRooms()){
-//            return -1;
-//        }else{
-//            hotelToBeBooked.setAvailableRooms(hotelToBeBooked.getAvailableRooms()-booking.getNoOfRooms());
-//            booking.setBookingId(String.valueOf(UUID.randomUUID()));
-//            booking.setAmountToBePaid(booking.getNoOfRooms()*hotelToBeBooked.getPricePerNight());
-//            booking_db.put(booking.getBookingId(), booking);
-//            user_booking_db.get(booking.getBookingAadharCard()).add(booking);
-//            return booking.getAmountToBePaid();
-//        }
     }
 
     public int getBookings(Integer aadharCard) {
