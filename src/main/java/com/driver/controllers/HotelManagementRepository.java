@@ -18,7 +18,14 @@ public class HotelManagementRepository {
 
     private String hotelWithMaxFacility = "";
     private int maxFacilitiesCount = 0;
-    public void addHotel(Hotel hotel) {
+    public String addHotel(Hotel hotel) {
+
+
+        if(hotel==null) return "FAILURE";
+        if(hotel.getHotelName().isEmpty()) return "FAILURE";
+        if(hotel_db.containsKey(hotel.getHotelName())) return "FAILURE";
+
+
         hotel_db.put(hotel.getHotelName(), hotel);
 
         int countOfFacilitiesInHotel = hotel.getFacilities().size();
@@ -33,6 +40,8 @@ public class HotelManagementRepository {
                 hotelWithMaxFacility = hotel.getHotelName();
             }
         }
+
+        return "SUCCESS";
     }
 
     public Integer addUser(User user) {

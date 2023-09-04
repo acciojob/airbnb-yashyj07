@@ -15,8 +15,8 @@ public class HotelManagementService {
     @Autowired
     HotelManagementRepository hotelManagementRepository;
 
-    public void addHotel(Hotel hotel) {
-        hotelManagementRepository.addHotel(hotel);
+    public String addHotel(Hotel hotel) {
+        return hotelManagementRepository.addHotel(hotel);
     }
 
     public Integer addUser(User user) {
