@@ -27,7 +27,7 @@ public class HotelManagementService {
         return  hotelManagementRepository.getHotelWithMostFacilities();
     }
 
-    public int bookARoom(Booking booking) {
+    public int getARoom(Booking booking) {
         return hotelManagementRepository.bookARoom(booking);
     }
 

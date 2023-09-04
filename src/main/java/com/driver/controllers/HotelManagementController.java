@@ -54,7 +54,7 @@ public class HotelManagementController {
     }
 
     @PostMapping("/book-a-room")
-    public int bookARoom(@RequestBody Booking booking){
+    public int getARoom(@RequestBody Booking booking){
 
         //The booking object coming from postman will have all the attributes except bookingId and amountToBePaid;
         //Have bookingId as a random UUID generated String //done
@@ -62,7 +62,7 @@ public class HotelManagementController {
         //Calculate the total amount paid by the person based on no. of rooms booked and price of the room per night.
         //If there arent enough rooms available in the hotel that we are trying to book return -1 //done
         //in other case return total amount paid
-        return hotelManagementService.bookARoom(booking);
+        return hotelManagementService.getARoom(booking);
     }
     
     @GetMapping("/get-bookings-by-a-person/{aadharCard}")
