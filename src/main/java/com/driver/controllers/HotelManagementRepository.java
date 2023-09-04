@@ -74,6 +74,11 @@ public class HotelManagementRepository {
 
 
     public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
+
+        if (!hotel_db.containsKey(hotelName)){
+            return new Hotel();
+        }
+
         Hotel currHotel = hotel_db.get(hotelName);
 
         for(Facility facility: newFacilities){
